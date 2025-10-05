@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://lib.reklaw.dev/styles/minimalistic.css">
+        <link rel="stylesheet" href="styles/globals.css">
+        <link rel="stylesheet" href="styles/style.css">
+        <script src="https://lib.reklaw.dev/lib.js"></script>
+        <script src="scripts/script.js"></script>
+        <script src="scripts/mitigation.js"></script>
+    </head>
+    <body>
+        <div class="navigation">
+            <h1>NASA Spaceapp Challenge</h1>
+            <h3>Meteor Madness</h3>
+        </div>
+        <div class="content centered-children">
+            <div class="container">
+                <div class="section">
+                    <h3>Threat Parameters</h3>
+                    <div>
+                        <div class="label">Historical Asteroids</div>
+                        <div class="asteroid-container">
+                            <button class="asteroid-button" onclick="setAsteroidParam(this.innerHTML)">1862 Apollo (2046)</button>
+                            <button class="asteroid-button" onclick="setAsteroidParam(this.innerHTML)">2101 Adonis (2036)</button>
+                            <button class="asteroid-button" onclick="setAsteroidParam(this.innerHTML)">4581 Asclepius (2019)</button>
+                            <button class="asteroid-button" onclick="setAsteroidParam(this.innerHTML)">2008 TS26 (2023)</button>
+                            <button class="asteroid-button" onclick="setAsteroidParam(this.innerHTML)">2020 VT4 (2020)</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class=label>Diameter (M)</div>
+                        <input type="number" id="inputDiameter" value=500>
+                    </div>
+                    <div>
+                        <div class=label>Velocity (KM/S)</div>
+                        <input type="number" id="inputVelocity" value="20000">
+                    </div>
+                    <div>
+                        <div class=label>Distance (KM)</div>
+                        <input type="number" id="inputDistance" value="1000000">
+                    </div>
+                    <div>
+                        <div class=label>Density (KG/M³)</div>
+                        <input type="number" id="inputDensity" value="3000">
+                    </div>
+                    <button onclick="calculateMitigation()">Calculate Mitigation</button>
+                </div>
+                <div class="section">
+                    <h3>Mitigation Analysis</h3>
+                    <div id="mitigationResults">
+                        <div>
+                            <div class="label">Mass (KG)</div>
+                            <div class="calc-result" id="resultMass">N/A</div>
+                        </div>
+                        <div>
+                            <div class="label">Energy (Mt)</div>
+                            <div class="calc-result" id="resultEnergy">N/A</div>
+                        </div>
+                        <div>
+                            <div class="label">Deflection Energy (J)</div>
+                            <div class="calc-result" id="resultDeflectionEnergy">N/A</div>
+                        </div>
+                        <div>
+                            <div class="label">Impact Time</div>
+                            <div class="calc-result" id="resultImpactTime">N/A</div>
+                        </div>
+                        <div>
+                            <div class="label">Suggestion</div>
+                            <div class="calc-result" id="resultSuggestion">N/A</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
