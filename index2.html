@@ -90,9 +90,9 @@
     const loader = new THREE.TextureLoader();
     const asteroidTexture = loader.load(
       'Asteroid.jpg',
-      () => console.log('✅ Texture loaded'),
+      () => console.log('Texture loaded'),
       undefined,
-      (err) => console.error('❌ Texture load error:', err)
+      (err) => console.error('Texture load error:', err)
     );
 
     // === Create asteroid ===
@@ -138,7 +138,7 @@
       download: true,
       header: true,
       complete: function(results) {
-        console.log('✅ CSV loaded:', results.data.length, 'rows');
+        console.log('CSV loaded:', results.data.length, 'rows');
         const rows = results.data.filter(r => r.date && r.energy && r.diameter);
         const events = rows.slice(0, 30).map(r => ({
           date: r.date || r.Date || "—",
@@ -150,7 +150,7 @@
         populateEvents(events);
       },
       error: function(err) {
-        console.error("❌ Failed to load CSV:", err);
+        console.error("Failed to load CSV:", err);
       }
     });
 
