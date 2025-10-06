@@ -89,7 +89,7 @@
     // === Load asteroid texture ===
     const loader = new THREE.TextureLoader();
     const asteroidTexture = loader.load(
-      '/Users/aarushishukla/git/NASA-Spaceapp/Asteroid.jpg',
+      'Asteroid.jpg',
       () => console.log(' Texture loaded'),
       undefined,
       (err) => console.error(' Texture load error:', err)
@@ -137,7 +137,7 @@
     });
 
     // === Load CSV data ===
-    Papa.parse('/Users/aarushishukla/git/NASA-Spaceapp/impacts.csv', {
+    Papa.parse('impacts.csv', {
       download: true,
       header: true,
       complete: function(results) {
