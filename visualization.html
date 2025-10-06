@@ -16,11 +16,6 @@
       font-family: "Space Mono";
       margin: 0;
       overflow: hidden;
-<<<<<<< HEAD:index2.html
-      background: skyblue;
-      font-family: Arial, sans-serif;
-=======
->>>>>>> bfa85efb504f0d0ef236486d310cd634fc6fc4f5:visualization.html
       color: white;
     }
 
@@ -107,14 +102,6 @@
     // === Scene setup ===
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-<<<<<<< HEAD:index2.html
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.enablePan = true;
-    controls.enableZoom = true;
-=======
     const canvas = dquery('canvas')
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true })
     const controls = new OrbitControls(camera, renderer.domElement)
@@ -122,7 +109,6 @@
     controls.dampingFactor = 0.05
     controls.enablePan = true
     controls.enableZoom = true
->>>>>>> bfa85efb504f0d0ef236486d310cd634fc6fc4f5:visualization.html
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x87ceeb); // Sky blue
 
@@ -146,11 +132,7 @@
     const loader = new THREE.TextureLoader();
     const asteroidTexture = loader.load(
       'Asteroid.jpg',
-<<<<<<< HEAD:index2.html
-      () => console.log('Texture loaded'),
-=======
       () => console.log(' Texture loaded'),
->>>>>>> bfa85efb504f0d0ef236486d310cd634fc6fc4f5:visualization.html
       undefined,
       (err) => console.error('Texture load error:', err)
     );
