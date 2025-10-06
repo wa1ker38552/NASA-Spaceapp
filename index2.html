@@ -8,7 +8,7 @@
     body {
       margin: 0;
       overflow: hidden;
-      background: skyblue; /* Sky color */
+      background: skyblue;
       font-family: Arial, sans-serif;
       color: white;
     }
@@ -58,7 +58,6 @@
 
   <!-- PapaParse for CSV loading -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
   <script type="module">
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js';
     import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js";
@@ -67,11 +66,11 @@
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    const controls = new OrbitControls(camera, renderer.domElement)
-    controls.enableDamping = true
-    controls.dampingFactor = 0.05
-    controls.enablePan = true
-    controls.enableZoom = true
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enablePan = true;
+    controls.enableZoom = true;
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x87ceeb); // Sky blue
     document.body.appendChild(renderer.domElement);
@@ -81,7 +80,7 @@
     light.position.set(1, 1, 1);
     scene.add(light, new THREE.AmbientLight(0x404040));
 
-    // === Ground / landscape ===
+    // === Ground ===
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(100, 100),
       new THREE.MeshLambertMaterial({ color: 0x228B22 })
@@ -96,9 +95,9 @@
     const loader = new THREE.TextureLoader();
     const asteroidTexture = loader.load(
       'Asteroid.jpg',
-      () => console.log(' Texture loaded'),
+      () => console.log('Texture loaded'),
       undefined,
-      (err) => console.error(' Texture load error:', err)
+      (err) => console.error('Texture load error:', err)
     );
 
     // === Create asteroid ===
@@ -126,12 +125,63 @@
     let asteroid = makeAsteroid();
     scene.add(asteroid);
 
+    // === Add Burj Khalifa as stacked tapered segments ===
+    function addBurjKhalifa() {
+      const segments = [
+        { w: 0.8, d: 0.8, h: 3 },
+        { w: 0.6, d: 0.6, h: 2 },
+        { w: 0.4, d: 0.4, h: 2 },
+        { w: 0.2, d: 0.2, h: 1 }
+      ];
+
+      let yOffset = -5; // start at ground
+      const burjGroup = new THREE.Group();
+
+      segments.forEach(seg => {
+        const geo = new THREE.BoxGeometry(seg.w, seg.h, seg.d);
+        const mat = new THREE.MeshStandardMaterial({
+          color: 0x8888ff,
+          roughness: 0.5,
+          metalness: 0.3
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.y = yOffset + seg.h / 2;
+        yOffset += seg.h;
+        burjGroup.add(mesh);
+      });
+
+      burjGroup.position.x = -10;
+      scene.add(burjGroup);
+
+      // === Add label using Sprite ===
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'rgba(0,0,0,0.7)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'white';
+      ctx.font = '24px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('Burj Khalifa', canvas.width/2, 30);
+      ctx.fillText('828 m (scaled)', canvas.width/2, 55);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      const spriteMat = new THREE.SpriteMaterial({ map: texture });
+      const sprite = new THREE.Sprite(spriteMat);
+      sprite.scale.set(6, 1.5, 1);
+      sprite.position.set(-10, yOffset + 1, 0);
+      scene.add(sprite);
+    }
+
+    addBurjKhalifa();
+
     // === Animation loop ===
     function animate() {
       requestAnimationFrame(animate);
       asteroid.rotation.y += 0.01;
       asteroid.rotation.x += 0.005;
-      controls.update()
+      controls.update();
       renderer.render(scene, camera);
     }
     animate();
@@ -148,7 +198,7 @@
       download: true,
       header: true,
       complete: function(results) {
-        console.log(" CSV loaded:", results.data.length, "rows");
+        console.log("CSV loaded:", results.data.length, "rows");
         const rows = results.data.filter(r => r["Object Name"]);
         const events = rows.map(r => ({
           name: r["Object Name"],
@@ -201,7 +251,7 @@
         asteroid.geometry.dispose();
         asteroid.material.dispose();
 
-        // Scale asteroid reasonably (not to actual size)
+        // Scale asteroid reasonably
         const scale = Math.max(0.5, Math.min((ev.diameter / 2) * 15, 15));
         asteroid = makeAsteroid(scale, color);
         scene.add(asteroid);
