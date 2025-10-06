@@ -95,7 +95,7 @@
     // === Load asteroid texture ===
     const loader = new THREE.TextureLoader();
     const asteroidTexture = loader.load(
-      'Asteroid.jpg',
+      '/Users/aarushishukla/git/NASA-Spaceapp/Asteroid.jpg',
       () => console.log(' Texture loaded'),
       undefined,
       (err) => console.error(' Texture load error:', err)
@@ -144,13 +144,13 @@
     });
 
     // === Load CSV data ===
-    Papa.parse('impacts.csv', {
+    Papa.parse('/Users/aarushishukla/git/NASA-Spaceapp/impacts.csv', {
       download: true,
       header: true,
       complete: function(results) {
         console.log(" CSV loaded:", results.data.length, "rows");
         const rows = results.data.filter(r => r["Object Name"]);
-        const events = rows.slice(0, 50).map(r => ({
+        const events = rows.map(r => ({
           name: r["Object Name"],
           start: r["Period Start"],
           end: r["Period End"],
@@ -202,7 +202,7 @@
         asteroid.material.dispose();
 
         // Scale asteroid reasonably (not to actual size)
-        const scale = Math.max(0.5, Math.min(ev.diameter * 0.5, 15));
+        const scale = Math.max(0.5, Math.min((ev.diameter / 2) * 15, 15));
         asteroid = makeAsteroid(scale, color);
         scene.add(asteroid);
       });
