@@ -61,11 +61,17 @@
 
   <script type="module">
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js';
+    import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js";
 
     // === Scene setup ===
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const controls = new OrbitControls(camera, renderer.domElement)
+    controls.enableDamping = true
+    controls.dampingFactor = 0.05
+    controls.enablePan = true
+    controls.enableZoom = true
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x87ceeb); // Sky blue
     document.body.appendChild(renderer.domElement);
@@ -125,6 +131,7 @@
       requestAnimationFrame(animate);
       asteroid.rotation.y += 0.01;
       asteroid.rotation.x += 0.005;
+      controls.update()
       renderer.render(scene, camera);
     }
     animate();
