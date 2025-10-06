@@ -7,13 +7,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://lib.reklaw.dev/styles/minimalistic.css">
+  <link rel="stylesheet" href="styles/globals.css">
+  <link rel="stylesheet" href="styles/style.css">
+  <script src="https://lib.reklaw.dev/lib.js"></script>
   <style>
     body {
       font-family: "Space Mono";
       margin: 0;
       overflow: hidden;
-      background: skyblue; /* Sky color */
       color: white;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: calc(100vh - 15.5rem) !important;
+      display: block;
+      outline: 0;
     }
 
     h1, h2, h3, h4 {
@@ -26,8 +36,8 @@
 
     #infoBox {
       position: absolute;
-      top: 20px;
-      left: 20px;
+      top: 6rem;
+      left: 6rem;
       background: rgba(0, 0, 0, 0.6);
       padding: 1rem;
       border-radius: 8px;
@@ -37,8 +47,8 @@
 
     #selectorBox {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 6rem;
+      right: 6rem;
       background: rgba(0, 0, 0, 0.6);
       padding: 10px;
       border-radius: 8px;
@@ -56,16 +66,23 @@
   </style>
 </head>
 <body>
-  <div id="infoBox">
-    <h2 id="evtDate">Select an asteroid</h2>
-    <p id="evtLoc"><strong>Period:</strong> —</p>
-    <p id="evtEnergy"><strong>Velocity:</strong> —</p>
-    <p><strong>Diameter:</strong> <span id="evtDiameter">—</span></p>
+  <div class="navigation" style="background: var(--background);">
+      <h1>NASA Spaceapp Challenge</h1>
+      <h3>Meteor Madness</h3>
   </div>
+  <div class="content centered-children" style="position: relative; padding: 5rem;">
+    <div id="infoBox">
+      <h2 id="evtDate">Select an asteroid</h2>
+      <p id="evtLoc"><strong>Period:</strong> —</p>
+      <p id="evtEnergy"><strong>Velocity:</strong> —</p>
+      <p><strong>Diameter:</strong> <span id="evtDiameter">—</span></p>
+    </div>
 
-  <div id="selectorBox">
-    <label for="evtSelect">Select Asteroid:</label>
-    <select id="evtSelect"><option>Loading...</option></select>
+    <div id="selectorBox">
+      <label for="evtSelect">Select Asteroid:</label>
+      <select id="evtSelect"><option>Loading...</option></select>
+    </div>
+    <canvas></canvas>
   </div>
 
   <!-- PapaParse for CSV loading -->
@@ -78,7 +95,8 @@
     // === Scene setup ===
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const canvas = dquery('canvas')
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true })
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.enableDamping = true
     controls.dampingFactor = 0.05
@@ -86,7 +104,6 @@
     controls.enableZoom = true
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x87ceeb); // Sky blue
-    document.body.appendChild(renderer.domElement);
 
     // === Lighting ===
     const light = new THREE.DirectionalLight(0xffffff, 1.3);
